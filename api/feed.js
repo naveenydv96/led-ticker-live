@@ -51,7 +51,7 @@ export default async function handler(request, response) {
     });
 
     const results = await Promise.all(fetchPromises);
-    const textToDisplay = results.join(' &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; ');
+    const textToDisplay = results.join(' &nbsp;&nbsp;|&nbsp;&nbsp; ');
 
     const htmlDesign = `
       <!DOCTYPE html>
