@@ -18,17 +18,40 @@ export default async function handler(request, response) {
           headers: { 'User-Agent': 'Mozilla/5.0' }
         });
         const data = await res.json();
-        const price = data.chart.result[0].meta.regularMarketPrice;
-        return `${stock.name}: ${price.toFixed(2)}`;
+        
+        const meta = data.chart.result[0].meta;
+        const price = meta.regularMarketPrice;
+        const previousClose = meta.chartPreviousClose;
+        
+        // Calculate the change and the percentage
+        const priceChange = price - previousClose;
+        const percentChange = ((priceChange / previousClose) * 100).toFixed(2);
+        
+        let arrow = '';
+        let color = '#FFFFFF'; 
+        let percentDisplay = '';
+        
+        if (priceChange > 0) {
+          arrow = '▲';
+          color = '#00FF00'; // Green
+          percentDisplay = `(+${percentChange}%)`;
+        } else if (priceChange < 0) {
+          arrow = '▼';
+          color = '#FF0000'; // Red
+          percentDisplay = `(${percentChange}%)`;
+        } else {
+          percentDisplay = `(0.00%)`;
+        }
+
+        return `<span style="color: #FFFFFF;">${stock.name}:</span> <span style="color: ${color};">${price.toFixed(2)} ${arrow} ${percentDisplay}</span>`;
       } catch (err) {
-        return `${stock.name}: N/A`; 
+        return `<span style="color: #FFFFFF;">${stock.name}:</span> <span style="color: gray;">N/A</span>`; 
       }
     });
 
     const results = await Promise.all(fetchPromises);
     const textToDisplay = results.join(' &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp; ');
 
-    // This creates the scrolling webpage design
     const htmlDesign = `
       <!DOCTYPE html>
       <html>
@@ -37,7 +60,6 @@ export default async function handler(request, response) {
           <style>
             body { 
               background-color: black; 
-              color: #00FF00; 
               font-family: Arial, sans-serif;
               font-weight: bold;
               font-size: 50px; 
