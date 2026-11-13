@@ -14,8 +14,14 @@ export default async function handler(request, response) {
   try {
     const fetchPromises = watchlist.map(async (stock) => {
       try {
-        const res = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${stock.ticker}`, {
-          headers: { 'User-Agent': 'Mozilla/5.0' }
+        // Added a live timestamp to bypass Vercel's cache completely
+        const liveTimestamp = Date.now();
+        const res = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${stock.ticker}?ts=${liveTimestamp}`, {
+          headers: { 
+            'User-Agent': 'Mozilla/5.0',
+            'Cache-Control': 'no-cache, no-store, must-revalidate'
+          },
+          cache: 'no-store' // Forces the server to fetch fresh data
         });
         const data = await res.json();
         
@@ -50,7 +56,6 @@ export default async function handler(request, response) {
 
     const results = await Promise.all(fetchPromises);
     
-    // The vertical line '|' has been removed here, leaving just a clean space
     const separator = ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ';
     const singleText = results.join(separator) + separator;
 
@@ -76,7 +81,6 @@ export default async function handler(request, response) {
             .ticker-wrap {
               display: flex;
               width: max-content;
-              /* Change 30s to a lower number for faster scrolling, or higher for slower */
               animation: ticker 30s linear infinite;
             }
             .ticker-item {
@@ -98,7 +102,10 @@ export default async function handler(request, response) {
       </html>
     `;
 
-    response.setHeader('Cache-Control', 'no-store, max-age=0');
+    // Tells browsers and HDPlayer never to cache this page
+    response.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    response.setHeader('Pragma', 'no-cache');
+    response.setHeader('Expires', '0');
     response.setHeader('Content-Type', 'text/html');
     response.status(200).send(htmlDesign);
 
