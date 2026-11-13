@@ -50,7 +50,8 @@ export default async function handler(request, response) {
 
     const results = await Promise.all(fetchPromises);
     
-    const separator = ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ';
+    // The vertical line '|' has been removed here, leaving just a clean space
+    const separator = ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ';
     const singleText = results.join(separator) + separator;
 
     const htmlDesign = `
@@ -75,6 +76,7 @@ export default async function handler(request, response) {
             .ticker-wrap {
               display: flex;
               width: max-content;
+              /* Change 30s to a lower number for faster scrolling, or higher for slower */
               animation: ticker 30s linear infinite;
             }
             .ticker-item {
