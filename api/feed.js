@@ -30,7 +30,6 @@ export default async function handler(request, response) {
         let color = '#FFFFFF'; 
         let percentDisplay = '';
         
-        // This logic now applies the color to the entire line of text
         if (priceChange > 0) {
           arrow = '▲';
           color = '#00FF00'; 
@@ -43,7 +42,6 @@ export default async function handler(request, response) {
           percentDisplay = `(0.00%)`;
         }
 
-        // We wrap both the name and the price in the dynamic color span
         return `<span style="color: ${color};">${stock.name}: ${price.toFixed(2)} ${arrow} ${percentDisplay}</span>`;
       } catch (err) {
         return `<span style="color: #FFFFFF;">${stock.name}: N/A</span>`; 
@@ -51,7 +49,10 @@ export default async function handler(request, response) {
     });
 
     const results = await Promise.all(fetchPromises);
-    const textToDisplay = results.join(' &nbsp;&nbsp;|&nbsp;&nbsp; ');
+    
+    // This creates the list and adds a separator at the very end to connect the loop seamlessly
+    const separator = ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ';
+    const singleText = results.join(separator) + separator;
 
     const htmlDesign = `
       <!DOCTYPE html>
@@ -63,17 +64,34 @@ export default async function handler(request, response) {
               background-color: black; 
               font-family: Arial, sans-serif;
               font-weight: bold;
-              font-size: 35px; 
+              font-size: 50px; 
               margin: 0;
+              height: 100vh;
               display: flex;
               align-items: center;
-              height: 100vh;
               overflow: hidden;
+              white-space: nowrap;
+            }
+            .ticker-wrap {
+              display: flex;
+              width: fit-content;
+              /* Change 30s to a lower number for faster scrolling, or higher for slower */
+              animation: ticker 30s linear infinite;
+            }
+            .ticker-item {
+              display: flex;
+            }
+            @keyframes ticker {
+              0% { transform: translateX(0); }
+              100% { transform: translateX(-50%); }
             }
           </style>
         </head>
         <body>
-          <marquee scrollamount="10">${textToDisplay}</marquee>
+          <div class="ticker-wrap">
+            <div class="ticker-item">\${singleText}</div>
+            <div class="ticker-item">\${singleText}</div>
+          </div>
         </body>
       </html>
     `;
