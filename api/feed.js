@@ -50,7 +50,6 @@ export default async function handler(request, response) {
 
     const results = await Promise.all(fetchPromises);
     
-    // This creates the list and adds a separator at the very end to connect the loop seamlessly
     const separator = ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ';
     const singleText = results.join(separator) + separator;
 
@@ -62,6 +61,7 @@ export default async function handler(request, response) {
           <style>
             body { 
               background-color: black; 
+              color: white; 
               font-family: Arial, sans-serif;
               font-weight: bold;
               font-size: 50px; 
@@ -74,12 +74,12 @@ export default async function handler(request, response) {
             }
             .ticker-wrap {
               display: flex;
-              width: fit-content;
-              /* Change 30s to a lower number for faster scrolling, or higher for slower */
+              width: max-content;
               animation: ticker 30s linear infinite;
             }
             .ticker-item {
               display: flex;
+              flex-shrink: 0;
             }
             @keyframes ticker {
               0% { transform: translateX(0); }
@@ -89,8 +89,8 @@ export default async function handler(request, response) {
         </head>
         <body>
           <div class="ticker-wrap">
-            <div class="ticker-item">\${singleText}</div>
-            <div class="ticker-item">\${singleText}</div>
+            <div class="ticker-item">${singleText}</div>
+            <div class="ticker-item">${singleText}</div>
           </div>
         </body>
       </html>
