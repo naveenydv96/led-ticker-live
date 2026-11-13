@@ -63,7 +63,7 @@ export default async function handler(request, response) {
               background-color: black; 
               font-family: Arial, sans-serif;
               font-weight: bold;
-              font-size: 50px; 
+              font-size: 35px; 
               margin: 0;
               display: flex;
               align-items: center;
