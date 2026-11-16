@@ -37,11 +37,11 @@ export default async function handler(request, response) {
         let percentDisplay = '';
         
         if (priceChange > 0) {
-          arrow = '▲';
+          arrow = '🐂';
           color = '#00FF00'; 
           percentDisplay = `(+${percentChange}%)`;
         } else if (priceChange < 0) {
-          arrow = '▼';
+          arrow = '🐻';
           color = '#FF0000'; 
           percentDisplay = `(${percentChange}%)`;
         } else {
