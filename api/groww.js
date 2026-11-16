@@ -1,5 +1,4 @@
 export default async function handler(request, response) {
-  // Groww requires us to specify if it is an INDEX or a CASH stock, and which exchange
   const watchlist = [
     { name: 'NIFTY', ticker: 'NIFTY', exchange: 'NSE', segment: 'INDEX' },
     { name: 'SENSEX', ticker: 'SENSEX', exchange: 'BSE', segment: 'INDEX' },
@@ -15,23 +14,26 @@ export default async function handler(request, response) {
   try {
     const fetchPromises = watchlist.map(async (stock) => {
       try {
-        const liveTimestamp = Date.now();
-        const url = `https://groww.in/v1/api/stocks_data/v1/tr_live_prices/exchange/${stock.exchange}/segment/${stock.segment}/${stock.ticker}?ts=${liveTimestamp}`;
+        const url = `https://groww.in/v1/api/stocks_data/v1/tr_live_prices/exchange/${stock.exchange}/segment/${stock.segment}/${stock.ticker}`;
         
+        // Disguising the server as a normal Windows Google Chrome browser
         const res = await fetch(url, {
           headers: { 
-            'User-Agent': 'Mozilla/5.0',
-            'Accept': 'application/json'
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept': 'application/json, text/plain, */*',
+            'Origin': 'https://groww.in',
+            'Referer': 'https://groww.in/',
+            'Accept-Language': 'en-US,en;q=0.9'
           },
           cache: 'no-store'
         });
         const data = await res.json();
         
-        // Groww uses 'ltp' (Last Traded Price) and 'close'
-        const price = data.ltp || data.price;
-        const previousClose = data.close || data.previousClose;
+        // Safely searching for where Groww hid the price in their data
+        const price = data?.livePriceDto?.ltp || data.ltp || data.price;
+        const previousClose = data?.livePriceDto?.close || data.close || data.previousClose;
         
-        if (!price || !previousClose) throw new Error("Missing data");
+        if (!price || !previousClose) throw new Error("Blocked or Missing");
 
         const priceChange = price - previousClose;
         const percentChange = ((priceChange / previousClose) * 100).toFixed(2);
@@ -54,7 +56,8 @@ export default async function handler(request, response) {
 
         return `<span style="color: ${color};">${stock.name}: ${price.toFixed(2)} ${arrow} ${percentDisplay}</span>`;
       } catch (err) {
-        return `<span style="color: #FFFFFF;">${stock.name}: N/A</span>`; 
+        // If it fails, it will now show an error dot so we know it got blocked
+        return `<span style="color: gray;">${stock.name}: N/A (•)</span>`; 
       }
     });
 
