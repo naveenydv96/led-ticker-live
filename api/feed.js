@@ -14,14 +14,13 @@ export default async function handler(request, response) {
   try {
     const fetchPromises = watchlist.map(async (stock) => {
       try {
-        // Added a live timestamp to bypass Vercel's cache completely
         const liveTimestamp = Date.now();
         const res = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${stock.ticker}?ts=${liveTimestamp}`, {
           headers: { 
             'User-Agent': 'Mozilla/5.0',
             'Cache-Control': 'no-cache, no-store, must-revalidate'
           },
-          cache: 'no-store' // Forces the server to fetch fresh data
+          cache: 'no-store' 
         });
         const data = await res.json();
         
@@ -32,23 +31,24 @@ export default async function handler(request, response) {
         const priceChange = price - previousClose;
         const percentChange = ((priceChange / previousClose) * 100).toFixed(2);
         
-        let arrow = '';
+        let trend = '';
         let color = '#FFFFFF'; 
         let percentDisplay = '';
         
+        // Replaced arrows with BULL and BEAR
         if (priceChange > 0) {
-          arrow = '▲';
+          trend = 'BULL';
           color = '#00FF00'; 
           percentDisplay = `(+${percentChange}%)`;
         } else if (priceChange < 0) {
-          arrow = '▼';
+          trend = 'BEAR';
           color = '#FF0000'; 
           percentDisplay = `(${percentChange}%)`;
         } else {
           percentDisplay = `(0.00%)`;
         }
 
-        return `<span style="color: ${color};">${stock.name}: ${price.toFixed(2)} ${arrow} ${percentDisplay}</span>`;
+        return `<span style="color: ${color};">${stock.name}: ${price.toFixed(2)} ${trend} ${percentDisplay}</span>`;
       } catch (err) {
         return `<span style="color: #FFFFFF;">${stock.name}: N/A</span>`; 
       }
@@ -102,7 +102,6 @@ export default async function handler(request, response) {
       </html>
     `;
 
-    // Tells browsers and HDPlayer never to cache this page
     response.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
     response.setHeader('Pragma', 'no-cache');
     response.setHeader('Expires', '0');
