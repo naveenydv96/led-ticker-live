@@ -35,15 +35,14 @@ export default async function handler(request, response) {
         let color = '#FFFFFF'; 
         let percentDisplay = '';
         
-        // Using Bull and Bear emojis instead of text
         if (priceChange > 0) {
           trend = '🐂';
           color = '#00FF00'; 
-          percentDisplay = `(+${percentChange}\%)`; } else if (priceChange < 0) { trend = '🐻'; color = '#FF0000'; percentDisplay = `(${percentChange}%)`;
+          percentDisplay = `(+${percentChange}%)`;
+        } else if (priceChange < 0) {
+          trend = '🐻';
+          color = '#FF0000'; 
+          percentDisplay = `(${percentChange}%)`;
         } else {
           percentDisplay = `(0.00%)`;
         }
-
-        return `<span style="color: ${color};">${stock.name}:${price.toFixed(2)} ${trend}${percentDisplay}</span>`;
-      } catch (err) {
-        return `<span style="color: #FFFFFF;">${stock
