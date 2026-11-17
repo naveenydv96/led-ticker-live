@@ -1,8 +1,8 @@
 export default async function handler(request, response) {
   const watchlist = [
-    { name: 'NIFTY', ticker '^NSEI' },
-    { name: 'SENSEX', ticker '^BSESN' },
-    { name: 'BANKNIFTY', ticker '^NSEBANK' },
+    { name: 'NIFTY', ticker: '^NSEI' },
+    { name: 'SENSEX', ticker: '^BSESN' },
+    { name: 'BANKNIFTY', ticker: '^NSEBANK' },
     { name: 'RELIANCE', ticker: 'RELIANCE.NS' },
     { name: 'HDFC', ticker: 'HDFCBANK.NS' },
     { name: 'INFY', ticker: 'INFY.NS' },
