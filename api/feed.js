@@ -58,7 +58,7 @@ export default async function handler(request, response) {
 
     const results = await Promise.all(fetchPromises);
     
-    const separator = ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ';
+    const separator = ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ';
     const singleText = results.join(separator) + separator;
 
     const htmlDesign = `
