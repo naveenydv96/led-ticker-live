@@ -6,6 +6,7 @@ const watchlist = [
     { name: 'RELIANCE', ticker: 'RELIANCE.NS' },
     { name: 'HDFC', ticker: 'HDFCBANK.NS' },
     { name: 'ICICI', ticker: 'ICICIBANK.NS' },
+     { name: 'NIFTY', ticker: '^NSEI' },
     { name: 'INFY', ticker: 'INFY.NS' },
     { name: 'TCS', ticker: 'TCS.NS' },
     { name: 'SBI', ticker: 'SBIN.NS' },
