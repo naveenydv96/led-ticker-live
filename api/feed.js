@@ -84,7 +84,7 @@ const watchlist = [
             .ticker-wrap {
               display: flex;
               width: max-content;
-              animation: ticker 30s linear infinite;
+              animation: ticker 40s linear infinite;
             }
             .ticker-item {
               display: flex;
