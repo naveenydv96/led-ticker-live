@@ -35,23 +35,21 @@ export default async function handler(request, response) {
         let color = '#FFFFFF'; 
         let percentDisplay = '';
         
-        // Wrapping emojis in animation tags
+        // Replaced Bull/Bear with Triangle Up/Down
         if (priceChange > 0) {
-          trend = '<span class="bull">🐂</span>';
+          trend = '▲';
           color = '#00FF00'; 
           percentDisplay = `(+${percentChange}%)`;
         } else if (priceChange < 0) {
-          trend = '<span class="bear">🐻</span>';
+          trend = '▼';
           color = '#FF0000'; 
           percentDisplay = `(${percentChange}%)`;
         } else {
           percentDisplay = `(0.00%)`;
         }
 
-        // Removed the colon (:) from this line
         return `<span style="color: ${color};">${stock.name} ${price.toFixed(2)} ${trend} ${percentDisplay}</span>`;
       } catch (err) {
-        // Removed the colon (:) from this line too
         return `<span style="color: #FFFFFF;">${stock.name} N/A</span>`; 
       }
     });
@@ -92,25 +90,6 @@ export default async function handler(request, response) {
             @keyframes ticker {
               0% { transform: translateX(0); }
               100% { transform: translateX(-50%); }
-            }
-            /* Bull charging animation */
-            .bull {
-              display: inline-block;
-              animation: charge 0.6s ease-in-out infinite alternate;
-            }
-            @keyframes charge {
-              0% { transform: translateX(0) rotate(0deg); }
-              100% { transform: translateX(10px) rotate(-15deg); }
-            }
-            /* Bear roaring animation */
-            .bear {
-              display: inline-block;
-              animation: roar 0.3s ease-in-out infinite alternate;
-              transform-origin: center bottom;
-            }
-            @keyframes roar {
-              0% { transform: scale(1) rotate(0deg); }
-              100% { transform: scale(1.2) rotate(10deg); }
             }
           </style>
         </head>
