@@ -48,9 +48,11 @@ export default async function handler(request, response) {
           percentDisplay = `(0.00%)`;
         }
 
-        return `<span style="color: ${color};">${stock.name}: ${price.toFixed(2)} ${trend} ${percentDisplay}</span>`;
+        // Removed the colon (:) from this line
+        return `<span style="color: ${color};">${stock.name} ${price.toFixed(2)} ${trend} ${percentDisplay}</span>`;
       } catch (err) {
-        return `<span style="color: #FFFFFF;">${stock.name}: N/A</span>`; 
+        // Removed the colon (:) from this line too
+        return `<span style="color: #FFFFFF;">${stock.name} N/A</span>`; 
       }
     });
 
