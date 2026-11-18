@@ -72,7 +72,7 @@ const watchlist = [
             body { 
               background-color: black; 
               color: white; 
-              font-family: Arial, sans-serif;
+              font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
               font-weight: bold;
               font-size: 50px; 
               margin: 0;
