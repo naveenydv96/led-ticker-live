@@ -1,18 +1,15 @@
 export default async function handler(request, response) {
-const watchlist = [
+  const watchlist = [
     { name: 'NIFTY', ticker: '^NSEI' },
-    { name: 'BANKNIFTY', ticker: '^NSEBANK' },
     { name: 'SENSEX', ticker: '^BSESN' },
+    { name: 'BANKNIFTY', ticker: '^NSEBANK' },
     { name: 'RELIANCE', ticker: 'RELIANCE.NS' },
     { name: 'HDFC', ticker: 'HDFCBANK.NS' },
-    { name: 'ICICI', ticker: 'ICICIBANK.NS' },
-     { name: 'NIFTY', ticker: '^NSEI' },
+      { name: 'NIFTY', ticker: '^NSEI' },
     { name: 'INFY', ticker: 'INFY.NS' },
-    { name: 'TCS', ticker: 'TCS.NS' },
+    { name: 'ICICI', ticker: 'ICICIBANK.NS' },
     { name: 'SBI', ticker: 'SBIN.NS' },
-    { name: 'AIRTEL', ticker: 'BHARTIARTL.NS' },
-    { name: 'ITC', ticker: 'ITC.NS' },
-    { name: 'L&T', ticker: 'LT.NS' }
+    { name: 'AIRTEL', ticker: 'BHARTIARTL.NS' }
   ];
 
   try {
@@ -39,7 +36,6 @@ const watchlist = [
         let color = '#FFFFFF'; 
         let percentDisplay = '';
         
-        // Replaced Bull/Bear with Triangle Up/Down
         if (priceChange > 0) {
           trend = '▲';
           color = '#00FF00'; 
@@ -69,11 +65,14 @@ const watchlist = [
         <head>
           <meta charset="utf-8">
           <style>
+            @import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@700&family=Geist:wght@700&display=swap');
+
             body { 
               background-color: black; 
               color: white; 
-              font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-              font-weight: bold;
+              font-family: 'Geist', 'Geist Mono', sans-serif;
+              font-variant-numeric: tabular-nums;
+              font-weight: 700;
               font-size: 50px; 
               margin: 0;
               height: 100vh;
@@ -85,7 +84,7 @@ const watchlist = [
             .ticker-wrap {
               display: flex;
               width: max-content;
-              animation: ticker 45s linear infinite;
+              animation: ticker 50s linear infinite;
             }
             .ticker-item {
               display: flex;
