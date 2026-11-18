@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Market Heatmap</title>
-    <!-- This line silently auto-refreshes the page every 60 seconds for live updates -->
+    <!-- Auto-refreshes the TV browser every 60 seconds -->
     <meta http-equiv="refresh" content="60">
     <style>
         body, html {
@@ -15,35 +15,17 @@
             overflow: hidden; 
             background-color: #131722; 
         }
+        /* Forces the copied widget to stretch full screen on the TV */
         .tradingview-widget-container { width: 100vw; height: 100vh; }
+        .tradingview-widget-container iframe { width: 100vw !important; height: 100vh !important; }
     </style>
 </head>
 <body>
-    <!-- TradingView Heatmap Widget BEGIN -->
-    <div class="tradingview-widget-container">
-      <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
-      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js" async>
-      {
-      "exchanges": [
-        "BSE"
-      ],
-      "dataSource": "AllIN",
-      "grouping": "sector",
-      "blockSize": "market_cap_basic",
-      "blockColor": "change",
-      "locale": "in",
-      "symbolUrl": "",
-      "colorTheme": "dark",
-      "hasTopBar": false,
-      "isDataSetEnabled": false,
-      "isZoomEnabled": false,
-      "hasSymbolTooltip": true,
-      "isMonoSize": false,
-      "width": "100%",
-      "height": "100%"
-      }
-      </script>
-    </div>
-    <!-- TradingView Heatmap Widget END -->
+    
+    <script type="module" src="https://widgets.tradingview-widget.com/w/en/tv-heatmap.js"></script>
+
+<tv-heatmap heatmap-type="stock" data-source="SENSEX" grouping="no_group" block-size="market_cap_basic" block-color="change" theme="dark"></tv-heatmap>
+
+
 </body>
 </html>
